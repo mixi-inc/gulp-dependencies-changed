@@ -1,0 +1,38 @@
+{
+  "name": "gulp-dependencies-changed",
+  "version": "0.0.0",
+  "description": "Only pass through dependent files that depended by changed files",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "mocha tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kuniwak/gulp-dependencies-changed"
+  },
+  "keywords": [
+    "gulpplugin",
+    "dependencies",
+    "changed"
+  ],
+  "author": "Kuniwak",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Kuniwak/gulp-dependencies-changed/issues"
+  },
+  "homepage": "https://github.com/Kuniwak/gulp-dependencies-changed",
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "chai-as-promised": "^5.1.0",
+    "es6-promise": "^3.0.2",
+    "mocha": "^2.2.5"
+  },
+  "dependencies": {
+    "gulp-changed": "^1.3.0",
+    "gulp-resolve-dependencies": "^2.1.0",
+    "highland": "^2.5.1"
+  }
+}
