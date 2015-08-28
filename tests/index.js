@@ -8,4 +8,18 @@ describe('gulp-dependecies-changed', function() {
     assert.typeOf(depsChanged, 'function');
     assert.property(depsChanged(), 'pipe');
   });
+
+
+  it('should export a compareByMtime function', function() {
+    var depsChanged = require('../index.js');
+
+    assert.property(depsChanged, 'compareByMtime');
+  });
+
+
+  it('should export a relativeResolver function', function() {
+    var depsChanged = require('../index.js');
+
+    assert.property(depsChanged, 'relativeResolver');
+  });
 });
