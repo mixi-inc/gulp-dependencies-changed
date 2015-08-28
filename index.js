@@ -11,6 +11,7 @@ function depsChanged(opts) {
 var defaultOptions = {
   comparator: lib.compareByMtime,
   pathResolver: lib.relativeResolver,
+  debug: false,
 };
 
 depsChanged.compareByMtime = lib.compareByMtime;

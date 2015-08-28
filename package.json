@@ -30,12 +30,12 @@
     "chai": "^3.2.0",
     "chai-as-promised": "^5.1.0",
     "es6-promise": "^3.0.2",
-    "lodash": "^3.10.1",
     "mocha": "^2.2.5",
     "vinyl": "^0.5.1"
   },
   "dependencies": {
-    "vinyl-fs": "^1.0.0",
-    "highland": "^2.5.1"
+    "highland": "^2.5.1",
+    "lodash": "^3.10.1",
+    "vinyl-fs": "^1.0.0"
   }
 }
