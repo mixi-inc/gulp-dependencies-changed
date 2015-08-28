@@ -39,6 +39,10 @@ gulp.task('less', function() {
 API
 ---
 ### changed(options)
+
+Only pass through dependent files that depending to changed files
+
+
 #### options
 ##### matcher
 

@@ -1,7 +1,7 @@
 {
   "name": "gulp-dependencies-changed",
   "version": "0.0.0",
-  "description": "Only pass through dependent files that depended by changed files",
+  "description": "Smart incremental building by dependency analysis",
   "main": "index.js",
   "directories": {
     "test": "tests"
@@ -14,8 +14,10 @@
     "url": "https://github.com/Kuniwak/gulp-dependencies-changed"
   },
   "keywords": [
+    "gulp",
     "gulpplugin",
-    "dependencies",
+    "incremental",
+    "dependency",
     "changed"
   ],
   "author": "Kuniwak",
