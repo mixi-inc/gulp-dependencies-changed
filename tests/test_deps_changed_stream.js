@@ -12,7 +12,7 @@ var vinylFs = require('vinyl-fs');
 var VinylFile = require('vinyl');
 var Promise = require('es6-promise').Promise;
 
-var depsChanged = require('lib/deps_changed_stream');
+var depsChanged = require('../lib/deps_changed_stream');
 
 
 describe('createDependenciesChangedStream', function() {
