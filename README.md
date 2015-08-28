@@ -72,6 +72,14 @@ This function take 2 arguments (a depending file and the dependent file) and it 
 If omitted, it compare by the both mtime.
 
 
+##### debug
+
+Type: `boolean`
+Default: `false`
+
+Print debug messages when it is truthy.
+
+
 License
 -------
 
