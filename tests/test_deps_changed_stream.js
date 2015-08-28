@@ -14,9 +14,6 @@ var Promise = require('es6-promise').Promise;
 
 var depsChanged = require('lib/deps_changed_stream');
 
-// TODO Remove this
-// var changed = require('gulp-changed');
-
 
 describe('createDependenciesChangedStream', function() {
   var createDependenciesChangedStream = depsChanged.createDependenciesChangedStream;
