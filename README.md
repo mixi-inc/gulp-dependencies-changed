@@ -31,7 +31,7 @@ gulp.task('less', function() {
     // only files that its depending files are changed.
     .pipe(changed({
       matcher: /@import ['"]?([^'"]+)['"]?;/g,
-      dest: function(srcPath) {
+      dest: function(srcRelPath, srcBasePath) {
         // It should return dest file path.
         return rename(srcPath, function(fileObj) {
           return {
