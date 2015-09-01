@@ -30,8 +30,58 @@ describe('createDependenciesChangedStream', function() {
   });
 
 
-  it('should pass when the dependent is older than the depending', function() {
+  it('should pass when the dependent is newer than the target file', function() {
     var opts = {
+      dest: function(dependentFilePath) { return dependentFilePath + '.production'; },
+      matcher: /DEPEND_TO: (.*)/g,
+      comparator: depsChanged.compareByMtime,
+      pathResolver: depsChanged.relativeResolver,
+    };
+
+    var newerDependentVinylFile = createVinylFile({
+      path: '/path/to/project/dependent',
+      mtime: new Date('2000/01/01'),
+      contentString: 'DEPEND_TO: ./depended',
+    });
+
+    var olderDependedVinylFile = createVinylFile({
+      path: '/path/to/project/depended',
+      mtime: new Date('1999/01/01'),
+      contentString: '',
+    });
+
+    var olderTargetVinylFile = createVinylFile({
+      path: '/path/to/project/dependent.production',
+      mtime: new Date('1999/01/01'),
+      contentString: '',
+    });
+
+    var stubVinylFileMap = {
+      '/path/to/project/dependent': newerDependentVinylFile,
+      '/path/to/project/depended': olderDependedVinylFile,
+      '/path/to/project/dependent.production': olderTargetVinylFile,
+    };
+
+    var di = {
+      createVinylFileStream: function(filePath) {
+        return highland([stubVinylFileMap[filePath]]);
+      },
+    };
+
+    var stream = highland([newerDependentVinylFile])
+      .pipe(createDependenciesChangedStream(opts, di));
+
+    return waitUntilStreamEnd(stream, function(vinylFiles) {
+      assert.sameMembers(vinylFiles, [
+        newerDependentVinylFile,
+      ]);
+    });
+  });
+
+
+  it('should pass when the dependings is newer than the target file', function() {
+    var opts = {
+      dest: function(dependentFilePath) { return dependentFilePath + '.production'; },
       matcher: /DEPEND_TO: (.*)/g,
       comparator: depsChanged.compareByMtime,
       pathResolver: depsChanged.relativeResolver,
@@ -49,9 +99,16 @@ describe('createDependenciesChangedStream', function() {
       contentString: '',
     });
 
+    var olderTargetVinylFile = createVinylFile({
+      path: '/path/to/project/dependent.production',
+      mtime: new Date('1999/01/01'),
+      contentString: '',
+    });
+
     var stubVinylFileMap = {
       '/path/to/project/dependent': olderDependentVinylFile,
       '/path/to/project/depended': newerDependedVinylFile,
+      '/path/to/project/dependent.production': olderTargetVinylFile,
     };
 
     var di = {
@@ -71,16 +128,17 @@ describe('createDependenciesChangedStream', function() {
   });
 
 
-  it('should drop when the dependent is newer than the depending', function() {
+  it('should drop when the dependent and the dependings is older than the target file', function() {
     var opts = {
+      dest: function(dependentFilePath) { return dependentFilePath + '.production'; },
       matcher: /DEPEND_TO: (.*)/g,
       comparator: depsChanged.compareByMtime,
       pathResolver: depsChanged.relativeResolver,
     };
 
-    var newerDependentVinylFile = createVinylFile({
+    var olderDependentVinylFile = createVinylFile({
       path: '/path/to/project/dependent',
-      mtime: new Date('2000/01/01'),
+      mtime: new Date('1999/01/01'),
       contentString: 'DEPEND_TO: ./depended',
     });
 
@@ -90,9 +148,16 @@ describe('createDependenciesChangedStream', function() {
       contentString: '',
     });
 
+    var newerTargetVinylFile = createVinylFile({
+      path: '/path/to/project/dependent.production',
+      mtime: new Date('2000/01/01'),
+      contentString: '',
+    });
+
     var stubVinylFileMap = {
-      '/path/to/project/dependent': newerDependentVinylFile,
+      '/path/to/project/dependent': olderDependentVinylFile,
       '/path/to/project/depended': olderDependedVinylFile,
+      '/path/to/project/dependent.production': newerTargetVinylFile,
     };
 
     var di = {
@@ -101,7 +166,7 @@ describe('createDependenciesChangedStream', function() {
       },
     };
 
-    var stream = highland([newerDependentVinylFile])
+    var stream = highland([olderDependentVinylFile])
       .pipe(createDependenciesChangedStream(opts, di));
 
     return waitUntilStreamEnd(stream, function(vinylFiles) {
@@ -139,14 +204,14 @@ describe('compareByMtime', function() {
 });
 
 
-describe('collectDepending', function() {
-  var collectDepending = depsChanged.collectDepending;
+describe('collectDependings', function() {
+  var collectDependings = depsChanged.collectDependings;
   var matcher = /@depend ([.\w\/]+)/g;
 
 
   it('should return depending vinyl-files', function() {
     var stream = createFixtureVinylFileStream('child')
-      .flatMap(collectDepending(matcher, relativeResolver));
+      .flatMap(collectDependings(matcher, relativeResolver));
 
     return waitUntilStreamEnd(stream, function(dependingVinylFiles) {
       var dependingFilePaths = lodash.pluck(dependingVinylFiles, 'path');
@@ -160,7 +225,7 @@ describe('collectDepending', function() {
 
   it('should return depending vinyl-files recursively', function() {
     var stream = createFixtureVinylFileStream('grand_child')
-      .flatMap(collectDepending(matcher, relativeResolver));
+      .flatMap(collectDependings(matcher, relativeResolver));
 
     return waitUntilStreamEnd(stream, function(dependingVinylFiles) {
       var dependingFilePaths = lodash.pluck(dependingVinylFiles, 'path');
