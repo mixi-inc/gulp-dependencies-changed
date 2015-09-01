@@ -2,7 +2,7 @@ var highland = require('highland');
 var lib = require('./lib/deps_changed_stream.js');
 
 function depsChanged(opts) {
-  var fullyOpts = highland.extend(defaultOptions, opts || {});
+  var fullyOpts = highland.extend(opts || {}, defaultOptions);
 
   // Drop DI parameter.
   return lib.createDependenciesChangedStream(fullyOpts);
