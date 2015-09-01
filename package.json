@@ -36,6 +36,6 @@
   "dependencies": {
     "highland": "^2.5.1",
     "lodash": "^3.10.1",
-    "vinyl-fs": "^1.0.0"
+    "vinyl-file": "^1.2.1"
   }
 }

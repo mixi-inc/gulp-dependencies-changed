@@ -8,7 +8,7 @@ var FIXTURE_DIR = path.join(__dirname, 'fixtures');
 
 var highland = require('highland');
 var lodash = require('lodash');
-var vinylFs = require('vinyl-fs');
+var vinylFile = require('vinyl-file');
 var VinylFile = require('vinyl');
 var Promise = require('es6-promise').Promise;
 
@@ -27,6 +27,59 @@ describe('createDependenciesChangedStream', function() {
 
     var stream = createDependenciesChangedStream(opts);
     assert(isStream(stream), 'Expected a Stream but got ' + typeof stream);
+  });
+
+
+  it('should pass when the target file is not found', function() {
+    var opts = {
+      dest: function(dependentRelPath, dependentBasePath) {
+        return path.join(dependentBasePath, dependentRelPath + '.production');
+      },
+      matcher: /DEPEND_TO: (.*)/g,
+      comparator: depsChanged.compareByMtime,
+      pathResolver: depsChanged.relativeResolver,
+    };
+
+    var dependentVinylFile = createVinylFile({
+      path: '/path/to/project/dependent',
+      base: '/path/to/project',
+      relative: 'dependent',
+      mtime: new Date('2000/01/01'),
+      contentString: 'DEPEND_TO: ./depended',
+    });
+
+    var dependedVinylFile = createVinylFile({
+      path: '/path/to/project/depended',
+      base: '/path/to/project',
+      relative: 'depended',
+      mtime: new Date('1999/01/01'),
+      contentString: '',
+    });
+
+    var stubVinylFileMap = {
+      '/path/to/project/dependent': dependentVinylFile,
+      '/path/to/project/depended': dependedVinylFile,
+    };
+
+    var di = {
+      createVinylFileStream: function(filePath) {
+        if (filePath in stubVinylFileMap) {
+          return highland([stubVinylFileMap[filePath]]);
+        }
+        else {
+          return createFixtureVinylFileStream('not_found');
+        }
+      },
+    };
+
+    var stream = highland([dependentVinylFile])
+      .pipe(createDependenciesChangedStream(opts, di));
+
+    return waitUntilStreamEnd(stream, function(vinylFiles) {
+      assert.sameMembers(vinylFiles, [
+        dependentVinylFile,
+      ]);
+    });
   });
 
 
@@ -286,7 +339,8 @@ function getFixturePath(fileName) {
 
 
 function createFixtureVinylFileStream(fileName) {
-  return highland(vinylFs.src(getFixturePath(fileName)));
+  var readFile = highland.wrapCallback(vinylFile.read);
+  return readFile(getFixturePath(fileName));
 }
 
 
