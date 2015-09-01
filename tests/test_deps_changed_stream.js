@@ -62,6 +62,9 @@ describe('createDependenciesChangedStream', function() {
     };
 
     var di = {
+      warn: function() {
+        // Ignore warn message
+      },
       createVinylFileStream: function(filePath) {
         if (filePath in stubVinylFileMap) {
           return highland([stubVinylFileMap[filePath]]);
