@@ -22,6 +22,8 @@ Usage
 ```javascript
 var less = require('gulp-less');
 var changed = require('gulp-dependencies-changed');
+var Path = require('path');
+var rename = require('rename');
 
 gulp.task('less', function() {
   return gulp.src('./less/**/*.less')
@@ -29,6 +31,15 @@ gulp.task('less', function() {
     // only files that its depending files are changed.
     .pipe(changed({
       matcher: /@import ['"]?([^'"]+)['"]?;/g,
+      dest: function(srcPath) {
+        // It should return dest file path.
+        return rename(srcPath, function(fileObj) {
+          return {
+            dirname: Path.join('public/css' + fileObj.dirname)
+            extname: 'css',
+          };
+        });
+      },
     }))
     .pipe(less())
     .pipe(gulp.dest('./public/css'));
@@ -52,9 +63,22 @@ This RegExp MUST include only a capturing group and SHOULD be global match.
 The result of the match will be given to a `pathResolver`.
 
 
+##### dest
+
+Type: `function(string): string`
+
+This function take an argument (a source file path).
+The source file path is exactly equivalent to `path.relative(vinylFile.path, vinylFile.base)`.
+It SHOULD return the file path for the dest file path.
+The return value is used as a target of comparison.
+
+You can easily rename by using [rename](https://www.npmjs.com/package/rename).
+
+
 ##### pathResolver
 
 Type: `function(string, string): string`
+
 Default: `changed.relativeResolver`
 
 This function take 2 arguments (a dependent file path, the depended file path captured by `matcher`) and MUST return a file path for the depending file.
@@ -66,6 +90,7 @@ If file extensions is omitted, you can complement the file extensions by the fun
 ##### comparator
 
 Type: `function(VinylFile, VinylFile): boolean`
+
 Default: `changed.compareByMtime`
 
 This function take 2 arguments (a depending file and the dependent file) and it MUST return `true` when the depending is newer than the dependent file.
@@ -75,6 +100,7 @@ If omitted, it compare by the both mtime.
 ##### debug
 
 Type: `boolean`
+
 Default: `false`
 
 Print debug messages when it is truthy.
