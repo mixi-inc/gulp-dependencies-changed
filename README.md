@@ -65,9 +65,9 @@ The result of the match will be given to a `pathResolver`.
 
 ##### dest
 
-Type: `function(string): string`
+Type: `function(string, string): string`
 
-This function take an argument (a source file path).
+This function take an argument (a relative file path and the base path).
 The source file path is exactly equivalent to `path.relative(vinylFile.path, vinylFile.base)`.
 It SHOULD return the file path for the dest file path.
 The return value is used as a target of comparison.
