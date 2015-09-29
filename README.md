@@ -1,18 +1,16 @@
 gulp-dependencies-changed
 =========================
-
-Smart incremental building by dependency analysis.
-
-[![Build Status](https://travis-ci.org/Kuniwak/gulp-dependencies-changed.svg?branch=master)](https://travis-ci.org/Kuniwak/gulp-dependencies-changed)
+[![Build Status](https://travis-ci.org/mixi-inc/gulp-dependencies-changed.svg?branch=master)](https://travis-ci.org/mixi-inc/gulp-dependencies-changed)
 [![npm version](https://badge.fury.io/js/gulp-dependencies-changed.svg)](http://badge.fury.io/js/gulp-dependencies-changed)
 
+Smart incremental building by dependency analysis.
 
 
 Installation
 ------------
 
 ```shell
-npm install gulp-dependencies-changed
+npm install --save-dev gulp-dependencies-changed
 ```
 
 
@@ -109,4 +107,4 @@ Print debug messages when it is truthy.
 License
 -------
 
-[MIT](https://github.com/Kuniwak/gulp-dependencies-changed/blob/master/LICENSE) (c) [Kuniwak](https://github.com/Kuniwak)
+MIT
