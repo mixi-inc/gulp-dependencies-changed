@@ -26,6 +26,9 @@
     "url": "https://github.com/Kuniwak/gulp-dependencies-changed/issues"
   },
   "homepage": "https://github.com/Kuniwak/gulp-dependencies-changed",
+  "engines": {
+    "node" : ">=0.12"
+  },
   "devDependencies": {
     "chai": "^3.2.0",
     "chai-as-promised": "^5.1.0",
