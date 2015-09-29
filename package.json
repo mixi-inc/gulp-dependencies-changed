@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Kuniwak/gulp-dependencies-changed"
+    "url": "https://github.com/mixi-inc/gulp-dependencies-changed"
   },
   "keywords": [
     "gulp",
@@ -23,12 +23,12 @@
   "author": "Kuniwak",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Kuniwak/gulp-dependencies-changed/issues"
+    "url": "https://github.com/mixi-inc/gulp-dependencies-changed/issues"
   },
-  "homepage": "https://github.com/Kuniwak/gulp-dependencies-changed",
   "engines": {
     "node" : ">=0.12"
   },
+  "homepage": "https://github.com/mixi-inc/gulp-dependencies-changed",
   "devDependencies": {
     "chai": "^3.2.0",
     "chai-as-promised": "^5.1.0",
