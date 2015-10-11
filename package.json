@@ -1,6 +1,6 @@
 {
   "name": "gulp-dependencies-changed",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Smart incremental building by dependency analysis",
   "main": "index.js",
   "directories": {
