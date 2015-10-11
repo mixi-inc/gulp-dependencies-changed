@@ -25,7 +25,7 @@ var rename = require('rename');
 
 gulp.task('less', function() {
   return gulp.src('./less/**/*.less')
-    // Analize dependencies for less. Pass through
+    // Analyze dependencies for less. Pass through
     // only files that its depending files are changed.
     .pipe(changed({
       matcher: /@import ['"]?([^'"]+)['"]?;/g,
