@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "highland": "^2.5.1",
-    "lodash": "^3.10.1",
+    "lodash": "^4.17.15",
     "vinyl-file": "^1.2.1"
   }
 }
