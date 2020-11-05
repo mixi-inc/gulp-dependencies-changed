@@ -26,19 +26,19 @@
     "url": "https://github.com/mixi-inc/gulp-dependencies-changed/issues"
   },
   "engines": {
-    "node" : ">=0.12"
+    "node": ">=10.23.0"
   },
   "homepage": "https://github.com/mixi-inc/gulp-dependencies-changed",
   "devDependencies": {
-    "chai": "^3.2.0",
-    "chai-as-promised": "^5.1.0",
-    "es6-promise": "^3.0.2",
-    "mocha": "^2.2.5",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "es6-promise": "^4.2.8",
+    "mocha": "^8.2.1",
     "vinyl": "^0.5.1"
   },
   "dependencies": {
     "highland": "^2.5.1",
-    "lodash": "^3.10.1",
+    "lodash": "^4.17.20",
     "vinyl-file": "^1.2.1"
   }
 }
