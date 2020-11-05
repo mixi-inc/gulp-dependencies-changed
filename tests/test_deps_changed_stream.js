@@ -287,7 +287,7 @@ describe('collectDependings', function() {
       .flatMap(collectDependings(matcher, relativeResolver));
 
     return waitUntilStreamEnd(stream, function(dependingVinylFiles) {
-      var dependingFilePaths = lodash.pluck(dependingVinylFiles, 'path');
+      var dependingFilePaths = lodash.map(dependingVinylFiles, 'path');
 
       assert.sameMembers(dependingFilePaths, [
         getFixturePath('parent'),
@@ -301,7 +301,7 @@ describe('collectDependings', function() {
       .flatMap(collectDependings(matcher, relativeResolver));
 
     return waitUntilStreamEnd(stream, function(dependingVinylFiles) {
-      var dependingFilePaths = lodash.pluck(dependingVinylFiles, 'path');
+      var dependingFilePaths = lodash.map(dependingVinylFiles, 'path');
 
       assert.sameMembers(dependingFilePaths, [
         getFixturePath('parent'),
@@ -350,7 +350,7 @@ function createFixtureVinylFileStream(fileName) {
 function createVinylFile(opts) {
   return new VinylFile({
     path: opts.path || 'path/to/file',
-    contents: new Buffer(opts.contentString || 'CONTENTS'),
+    contents: Buffer.from(opts.contentString || 'CONTENTS'),
     stat: { mtime: opts.mtime || new Date('2000/01/01') },
   });
 }
